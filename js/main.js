@@ -5,6 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initLanguageToggle();
+  initPubToggle();
   initScrollReveal();
   initNavbar();
   initMobileMenu();
@@ -30,6 +31,45 @@ function setLanguage(lang) {
 
   document.querySelectorAll('.lang-toggle button').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+}
+
+/* --- Publication Toggle (show 5 / show all) --- */
+function initPubToggle() {
+  const VISIBLE_COUNT = 5;
+  const items = document.querySelectorAll('.pub-item');
+  const btn = document.getElementById('pubToggle');
+  if (!btn || items.length <= VISIBLE_COUNT) {
+    if (btn) btn.style.display = 'none';
+    return;
+  }
+
+  // Hide items beyond VISIBLE_COUNT
+  items.forEach((item, i) => {
+    if (i >= VISIBLE_COUNT) item.classList.add('pub-hidden');
+  });
+
+  let expanded = false;
+  btn.addEventListener('click', () => {
+    expanded = !expanded;
+    items.forEach((item, i) => {
+      if (i >= VISIBLE_COUNT) {
+        item.classList.toggle('pub-hidden', !expanded);
+        if (expanded) item.classList.add('visible'); // trigger reveal
+      }
+    });
+    btn.setAttribute('aria-expanded', expanded);
+
+    // Update button text
+    const esSpan = btn.querySelector('[data-lang="es"]');
+    const enSpan = btn.querySelector('[data-lang="en"]');
+    if (expanded) {
+      esSpan.textContent = 'Mostrar recientes';
+      enSpan.textContent = 'Show recent';
+    } else {
+      esSpan.textContent = `Mostrar todas (${items.length})`;
+      enSpan.textContent = `Show all (${items.length})`;
+    }
   });
 }
 
