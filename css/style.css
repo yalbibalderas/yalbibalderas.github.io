@@ -734,6 +734,9 @@ h3 { font-size: 1.3rem; }
 body.lang-en [data-lang="en"] { display: revert; }
 body.lang-en [data-lang="es"] { display: none; }
 
+/* Keep both language toggle buttons always visible */
+.lang-toggle button[data-lang] { display: block !important; }
+
 /* --- Animations (scroll reveal) --- */
 .reveal {
   opacity: 0;
