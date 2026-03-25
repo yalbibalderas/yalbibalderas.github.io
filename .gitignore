@@ -5,3 +5,4 @@
 .Ruserdata
 *_cache/
 *_files/
+.claude/
